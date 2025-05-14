@@ -12,11 +12,11 @@ import {TasksComponent} from './tasks/tasks.component';
 })
 export class AppComponent {
   users = DummyUsers;
-  selectedUser?:string  = '';
+  selectedUserId?:string  = '';
   onSelectUser(id: string) {
-    this.selectedUser = id;
+    this.selectedUserId = id;
     console.log(id);
-    console.log(this.selectedUser);
+    console.log(this.selectedUserId);
   }
 
 }
