@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
 import { HeaderComponent } from './header/header.component';
 import { UserComponent } from './user/user.component';
 import { DummyUsers } from './shared/dummy-users';
 import {TasksComponent} from './tasks/tasks.component';
+import {UserService} from './shared/user.service';
 
 @Component({
   selector: 'app-root',
@@ -11,12 +12,16 @@ import {TasksComponent} from './tasks/tasks.component';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  users = DummyUsers;
+  private userService = inject(UserService);
+  users = this.userService.allUsers
   selectedUserId?:string  = '';
   onSelectUser(id: string) {
     this.selectedUserId = id;
-    console.log(id);
-    console.log(this.selectedUserId);
+
+    const selectedUser = this.users().find(user => user.id === id);
+    if (selectedUser) {
+      this.userService.setSelectedUserId(id);
+    }
   }
 
 }

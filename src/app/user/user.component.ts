@@ -1,6 +1,7 @@
-import {Component, computed, input, output} from '@angular/core';
+import {Component, computed, inject, input, output} from '@angular/core';
 
 import { type User } from '../shared/user.model';
+import {UserService} from '../shared/user.service';
 
 @Component({
   selector: 'app-user',
@@ -11,21 +12,17 @@ import { type User } from '../shared/user.model';
 
 
 export class UserComponent {
-  // @Input() avatar!: string;
-  // @Input() name!: string;
-  // @Output() select = new EventEmitter();
-  // get imagePath () {
-  //   return 'assets/users/' + this.avatar;
-  // }
+  private userService =inject(UserService);
   selected = input.required<boolean>();
   user = input.required<User>();
+
   selectUser = output<string>();
 
   imagePath = computed(() => {
       return 'assets/users/' + this.user().avatar;
   });
 
-onSelectUser() {
+onSelectUserId() {
   this.selectUser.emit(this.user().id);
 }
 
