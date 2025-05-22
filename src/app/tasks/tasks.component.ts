@@ -1,8 +1,8 @@
-import {Component, computed, input} from '@angular/core';
-import {DummyUsers} from '../shared/dummy-users';
+import {Component, inject} from '@angular/core';
 import {TaskComponent} from './task/task.component';
-import { DummyTasks } from '../shared/dummy-tasks';
 import {NewTaskComponent} from './new-task/new-task.component';
+import {UserService} from '../shared/user.service';
+import {TaskService} from '../shared/task.service';
 
 @Component({
   selector: 'app-tasks',
@@ -11,32 +11,19 @@ import {NewTaskComponent} from './new-task/new-task.component';
   styleUrl: './tasks.component.css'
 })
 export class TasksComponent {
-  addMode = false;
-  tasks = DummyTasks;
-  users = DummyUsers;
-  selectUser = input.required<string>();
-  selectedName = computed(() => {
-    const user = this.users.find(user => user.id === this.selectUser());
-    return user?.name
-  })
-  selectedId = computed(() => {
-    const user = this.users.find(user => user.id === this.selectUser());
-    return user?.id
-  })
+  private userService = inject(UserService);
+  private taskService = inject(TaskService);
+  addMode = this.taskService.addMode;
+  tasks = this.taskService.allTasks;
+  users = this.userService.allUsers;
+  selectUserId = this.userService.selectedUserId;
+  selectedName = this.userService.selectedName;
 
-  onCompleteTask(id: string) {
-    this.tasks = this.tasks.filter((task) => task.id !== id);
+
+
+  onAddTask(addMode: boolean) {
+    this.taskService.setAddMode(addMode);
   }
 
-  onAddTask() {
-    this.addMode = true;
-  }
 
-  onCancelAddMode(addMode: boolean) {
-    this.addMode = addMode;
-  }
-
-  eee() {
-    console.log(this.users.find(user => user.id === this.selectUser()));
-  }
 }

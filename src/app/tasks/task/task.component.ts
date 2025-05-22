@@ -1,6 +1,7 @@
-import {Component, input, output} from '@angular/core';
+import {Component, inject, input} from '@angular/core';
 
 import { type Task } from '../../shared/task.model';
+import {TaskService} from '../../shared/task.service';
 
 @Component({
   selector: 'app-task',
@@ -9,11 +10,16 @@ import { type Task } from '../../shared/task.model';
   styleUrl: './task.component.css'
 })
 export class TaskComponent {
+  private taskService = inject(TaskService);
   task = input.required<Task>();
-  complete = output<string>();
+
 
   onCompleteTask() {
-    this.complete.emit(this.task().id);
+    this.taskService.removeTask(this.task().id);
+    const selectedTask = this.task()
+    if (selectedTask) {
+      this.taskService.setSelectedTask(this.task());
+    }
   }
 
 }

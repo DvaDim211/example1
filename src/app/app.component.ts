@@ -1,7 +1,6 @@
 import {Component, inject} from '@angular/core';
 import { HeaderComponent } from './header/header.component';
 import { UserComponent } from './user/user.component';
-import { DummyUsers } from './shared/dummy-users';
 import {TasksComponent} from './tasks/tasks.component';
 import {UserService} from './shared/user.service';
 
@@ -13,15 +12,8 @@ import {UserService} from './shared/user.service';
 })
 export class AppComponent {
   private userService = inject(UserService);
-  users = this.userService.allUsers
-  selectedUserId?:string  = '';
-  onSelectUser(id: string) {
-    this.selectedUserId = id;
+  users = this.userService.allUsers;
+  selectedUserId = this.userService.selectedUserId;
 
-    const selectedUser = this.users().find(user => user.id === id);
-    if (selectedUser) {
-      this.userService.setSelectedUserId(id);
-    }
-  }
 
 }

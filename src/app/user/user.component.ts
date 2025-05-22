@@ -1,4 +1,4 @@
-import {Component, computed, inject, input, output} from '@angular/core';
+import {Component, computed, inject, input} from '@angular/core';
 
 import { type User } from '../shared/user.model';
 import {UserService} from '../shared/user.service';
@@ -12,18 +12,21 @@ import {UserService} from '../shared/user.service';
 
 
 export class UserComponent {
-  private userService =inject(UserService);
-  selected = input.required<boolean>();
+  private userService = inject(UserService);
+  selected = computed(() => this.user().id === this.userService.selectedUserId());
   user = input.required<User>();
-
-  selectUser = output<string>();
+  users = this.userService.allUsers
 
   imagePath = computed(() => {
       return 'assets/users/' + this.user().avatar;
   });
 
 onSelectUserId() {
-  this.selectUser.emit(this.user().id);
+  const selectedUser = this.users().find(user => user.id === this.user().id);
+  if (selectedUser) {
+    this.userService.setSelectedUserId(this.user().id);
+  }
+
 }
 
 }

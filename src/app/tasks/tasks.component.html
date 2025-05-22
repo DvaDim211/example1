@@ -1,22 +1,22 @@
 <section id="tasks" class="scrollbarHide">
   <header>
-    <h2  (click)="eee()">{{ selectedName() }}</h2>
+    <h2>{{ selectedName() }}</h2>
     <menu>
-      <button (click)="onAddTask()">Add task</button>
+      <button (click)="onAddTask(true)">Add task</button>
     </menu>
   </header>
 
 
   <ul class="scrollbarHide">
-    @if (addMode) {
+    @if (addMode()) {
       <li>
-        <app-new-task (cancel)="onCancelAddMode($event)"/>
+        <app-new-task/>
       </li>
     } @else {
-      @for (task of tasks; track task.id) {
-        @if (task.userId === selectedId()) {
+      @for (task of tasks(); track task.id) {
+        @if (task.userId === selectUserId()) {
           <li >
-            <app-task [task]="task" (complete)="onCompleteTask($event)" />
+            <app-task [task]="task"/>
           </li>
         }
       }

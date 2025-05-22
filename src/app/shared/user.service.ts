@@ -18,5 +18,8 @@ export class UserService {
     return this._allUsers().find(user => user.id === id) ?? null;
   });
 
+  selectedName = computed(() => {
+    return this.selectedUser()?.name
+  })
 
 }

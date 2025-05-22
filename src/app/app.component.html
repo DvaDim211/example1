@@ -6,15 +6,14 @@
       <li>
         <app-user
           [user]="user"
-          [selected]="user.id === selectedUserId"
-          (selectUser)="onSelectUser($event)"
         />
       </li>
     }
   </ul>
 
-  @if (selectedUserId) {
-  <app-tasks [selectUser] ="selectedUserId"/>
+  @if (selectedUserId()) {
+  <app-tasks
+  />
   } @else {
     <p id="fallback">Select a user to see their tasks!</p>
   }
